@@ -23,12 +23,17 @@ public class SkinData
         skin.id = key;
         skin.name = data.ContainsKey("name") ? data["name"].ToString() : "";
         skin.img = data.ContainsKey("img") ? data["img"].ToString() : "";
+        
 
         if (data.ContainsKey("price"))
         {
             int.TryParse(data["price"].ToString(), out skin.price);
         }
-    
+        if (data.ContainsKey("rarity"))
+        {
+            int.TryParse(data["rarity"].ToString(), out skin.rarity);
+        }
+
         return skin;
     }
 

@@ -20,5 +20,26 @@ public class SkinCardUI : MonoBehaviour
             skinImage.sprite = sprite;
         else
             Debug.LogError("No se encontro la imagen: " +  skinData.img);
+
+        int rarityIndex = skinData.rarity;
+        Color rarityColor = Color.white;
+        switch (rarityIndex)
+        {
+            case 0:
+                rarityColor = Color.white;
+                break;
+
+            case 1:
+                rarityColor = Color.purple;
+                break;
+                
+                default: 
+                   rarityColor =  Color.white;
+                break ;
+        }
+        rarity.color = rarityColor;
+
+
+
     }
 }
