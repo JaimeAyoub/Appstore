@@ -1563,6 +1563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoreManager
   contentParent: {fileID: 822903110}
   cardPrefab: {fileID: 1870314910213870156, guid: 08cf172aa0875b948962565d6c00f671, type: 3}
+  cointText: {fileID: 0}
 --- !u!1 &724908636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,7 +2427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1103850482
 RectTransform:
   m_ObjectHideFlags: 0
