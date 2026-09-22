@@ -27,7 +27,9 @@ public class StoreManager : MonoBehaviour
 
     public int currentCoins { get; private set; }
 
-    private string uid; //Si no hay sesión iniciada, es null
+    private string uid; //Si no hay sesiï¿½n iniciada, es null
+
+    public IEnumerable<SkinData> GetAllSkins() => currentSkins.Values;
 
     public bool HasUser => uid != null;
 
@@ -50,12 +52,23 @@ public class StoreManager : MonoBehaviour
                 Debug.LogError("Firebase error: " + task.Result);
                 return;
             }
+
             dbRoot = FirebaseDatabase.DefaultInstance.RootReference;
             dbRoot.Child("skins").ValueChanged += OnSkinsChanged;
 
             WaitForAutManager();
-
         });
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach (var skins in purchasedSkinsIDs)
+            {
+                Debug.Log(skins.ToString());
+            }
+        }
     }
 
     private void WaitForAutManager()
@@ -78,6 +91,7 @@ public class StoreManager : MonoBehaviour
         uid = user != null ? user.UserId : null;
 
         purchasedSkinsIDs.Clear();
+        ShowInModelSkins.instance.RestoreCosmetics();
         currentCoins = 0;
         UpdateCoinsText();
 
@@ -105,14 +119,14 @@ public class StoreManager : MonoBehaviour
 
     private void RedrawCards()
     {
-        if(contentParent == null || cardPrefab == null) return;
+        if (contentParent == null || cardPrefab == null) return;
 
-        foreach(Transform child in contentParent)
+        foreach (Transform child in contentParent)
             Destroy(child.gameObject);
 
-        foreach(var skin in currentSkins.Values)
+        foreach (var skin in currentSkins.Values)
         {
-            var card = Instantiate(cardPrefab,contentParent);
+            var card = Instantiate(cardPrefab, contentParent);
             SkinCardUI skinCard = card.GetComponent<SkinCardUI>();
             skinCard.Setup(skin);
         }
@@ -148,6 +162,7 @@ public class StoreManager : MonoBehaviour
         UpdateCoinsText();
         RedrawCards();
     }
+
     private void OnPurchasedChanged(object sender, ValueChangedEventArgs e)
     {
         if (e.DatabaseError != null)
@@ -164,6 +179,7 @@ public class StoreManager : MonoBehaviour
         }
 
         RedrawCards();
+        ShowInModelSkins.instance.RestoreCosmetics();
     }
 
     private void OnSkinsChanged(object sender, ValueChangedEventArgs args)
@@ -186,6 +202,7 @@ public class StoreManager : MonoBehaviour
                 currentSkins[skin.id] = skin;
             }
         }
+
         RedrawCards();
     }
 
@@ -231,10 +248,8 @@ public class StoreManager : MonoBehaviour
                 return;
             }
 
-            dbRoot.Child("users").Child(uid).Child("purchased").Child(skinId).SetValueAsync(true).ContinueWithOnMainThread(_ =>
-            {
-                onComplete?.Invoke(true, "Compraste " + skin.name + ".");
-            });
+            dbRoot.Child("users").Child(uid).Child("purchased").Child(skinId).SetValueAsync(true)
+                .ContinueWithOnMainThread(_ => { onComplete?.Invoke(true, "Compraste " + skin.name + "."); });
         });
     }
 

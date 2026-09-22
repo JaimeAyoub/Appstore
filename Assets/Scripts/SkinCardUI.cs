@@ -58,6 +58,7 @@ public class SkinCardUI : MonoBehaviour
         if (store.IsPurchased(skin.id))
         {
             SetButton("Comprada", false);
+            
             return;
         }
 

@@ -16,6 +16,8 @@ public class SkinData
 
     public int rarity;
 
+    public string type;
+
 
     public static SkinData fromDictionary(string key, IDictionary<string, object> data)
     {
@@ -23,6 +25,7 @@ public class SkinData
         skin.id = key;
         skin.name = data.ContainsKey("name") ? data["name"].ToString() : "";
         skin.img = data.ContainsKey("img") ? data["img"].ToString() : "";
+        skin.type = data.ContainsKey("type") ? data["type"].ToString() : "";
         
 
         if (data.ContainsKey("price"))
@@ -36,5 +39,7 @@ public class SkinData
 
         return skin;
     }
+    
+    
 
 }
