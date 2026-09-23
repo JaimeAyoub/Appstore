@@ -100,6 +100,7 @@ public class StoreManager : MonoBehaviour
             RedrawCards();
             return;
         }
+        CanvasManager.instance.CheckCanvasOn();
 
         var coindRef = dbRoot.Child("users").Child(uid).Child("coins");
         var purchasedRef = dbRoot.Child("users").Child(uid).Child("purchased");
